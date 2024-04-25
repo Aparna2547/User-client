@@ -38,8 +38,8 @@ const Signup = () => {
             return toast.error('Enter last name')
         }
 
-        if(userDetails.password.trim().length < 8){
-            return toast.error('Password length must be 8 letters')
+        if(userDetails.password.trim().length < 6){
+            return toast.error('Password length must be 6 letters')
         }
 
         if(userDetails.password.trim() !== userDetails.confirmPassword.trim()){
@@ -52,7 +52,8 @@ const Signup = () => {
 
 
         const res = await signUp(userDetails)
-        if(true){
+        console.log('res signup',res)
+        if( res && !res.data){
             setOtpForm(true)
         }
 
@@ -62,8 +63,8 @@ const Signup = () => {
 
     const handleUserDetails = (key:string, value:string) => {
         setUserDetails(prevUser => ({
-          ...prevUser, // Spread the previous state to maintain other properties
-          [key]: value, // Update the specific property
+          ...prevUser,
+          [key]: value,
         }));
      };
 

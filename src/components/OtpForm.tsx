@@ -48,7 +48,9 @@ const OtpForm = ({setOtpForm}:props) => {
         }
 
         const res = await verifyOtp(otp)
-        if(true){
+        console.log('res orp',res)
+        if(res){
+            toast.success(res.data.message)
             setOtpForm(false)
             localStorage.setItem('token','true')
             navigate('/')
@@ -67,9 +69,7 @@ const OtpForm = ({setOtpForm}:props) => {
                         <div className="font-semibold text-3xl">
                             <p>Email Verification</p>
                         </div>
-                        {/* <div className="flex flex-row text-sm font-medium text-gray-400">
-                                <p>We have sent a code to your email ba**@dipainhouse.com</p>
-                            </div> */}
+                        
                     </div>
                     <div>
                         <form onSubmit={handleOtpSubmit}>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import signinImg from '../../assets/signin.png'
 import { AiOutlineEye } from "react-icons/ai";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
@@ -18,6 +18,7 @@ const SignIn = () => {
 
     const navigate = useNavigate()
 
+   
     const handleSignIn = async(e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
 
@@ -28,14 +29,18 @@ const SignIn = () => {
             return toast.error('Enter a valid emai')
         }
 
-        if(userDetails.password.trim().length < 8){
-            return toast.error('Email and password incorrect')
+        if(userDetails.password.trim().length < 6){
+            return toast.error('Enter minimum 6 characters')
         }
 
         const res = await signIn(userDetails)
-        if(true){
-            localStorage.setItem('token','true')
-            navigate('/')
+        console.log('res login',res)
+        if (res && res.data) {
+            localStorage.setItem('token', res.data.token);
+            toast.success(res.data.message);
+            console.log('Before navigation');
+            navigate('/');
+            console.log('After navigation');
         }
 
     }
