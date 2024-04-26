@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import errorHandle from "./ErrorHandle";
 import Api from "./api";
 import store from "../Store/store";

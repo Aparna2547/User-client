@@ -3,21 +3,16 @@ import welcome from "../../assets/welcome.jpeg";
 import ResetPassword from "../../components/ResetPassword";
 import { userData } from "../../apis/user";
 import { toast } from "sonner";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, setToken } from "../../Store/Slice";
+import { useDispatch } from "react-redux";
+import { logout } from "../../Store/Slice";
 
-interface RootState{
-  auth:{
-      token: string
-  }
-  }
+
 const Dashboard = () => {
   const [resetPassword,setResetPassword] = useState(false)
   const [name,setName] = useState(null)
   const [email,setEmail] = useState(null)
  const dispatch = useDispatch()
 
- const {token} = useSelector((state:RootState)=>state.auth)
 
   useEffect(()=>{
     const fetchData = async () =>{
