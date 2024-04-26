@@ -3,6 +3,8 @@ import { toast } from 'sonner';
 import { verifyOtp } from '../apis/user';
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
+import { setToken } from '../Store/Slice';
+import { useDispatch } from 'react-redux';
 
 
 type props = {
@@ -14,6 +16,8 @@ const OtpForm = ({setOtpForm}:props) => {
     const [otpValues, setOTPValues] = useState<string[]>(['', '', '', '']);
 
     const navigate = useNavigate()
+
+    const  dispatch = useDispatch()
 
 
     const handleInputChange = (index: number, event: any) => {
@@ -50,9 +54,10 @@ const OtpForm = ({setOtpForm}:props) => {
         const res = await verifyOtp(otp)
         console.log('res orp',res)
         if(res){
+            dispatch(setToken(res.data))
             toast.success(res.data.message)
             setOtpForm(false)
-            localStorage.setItem('token','true')
+            
             navigate('/')
         }
 

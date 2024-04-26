@@ -1,21 +1,23 @@
-import { useEffect, useState } from 'react'
+import {   useState } from 'react'
 import signinImg from '../../assets/signin.png'
 import { AiOutlineEye } from "react-icons/ai";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { signIn } from '../../apis/user';
+import { useDispatch } from "react-redux";
+import { setToken } from '../../Store/Slice';
+
 
 const SignIn = () => {
 
     const [passwordView, setPasswordView] = useState(false)
+    const dispatch = useDispatch()
 
     const [userDetails,setUserDetails] = useState({
         email : '',
         password : ''
     })
-
-
     const navigate = useNavigate()
 
    
@@ -36,7 +38,7 @@ const SignIn = () => {
         const res = await signIn(userDetails)
         console.log('res login',res)
         if (res && res.data) {
-            localStorage.setItem('token', res.data.token);
+            dispatch(setToken(res.data.token))
             toast.success(res.data.message);
             console.log('Before navigation');
             navigate('/');

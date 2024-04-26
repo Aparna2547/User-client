@@ -2,24 +2,42 @@ import { useEffect, useState } from "react";
 import welcome from "../../assets/welcome.jpeg";
 import ResetPassword from "../../components/ResetPassword";
 import { userData } from "../../apis/user";
+import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, setToken } from "../../Store/Slice";
 
-
+interface RootState{
+  auth:{
+      token: string
+  }
+  }
 const Dashboard = () => {
   const [resetPassword,setResetPassword] = useState(false)
-  const [name,setName] = useState('')
-  const [email,setEmail] = useState('')
+  const [name,setName] = useState(null)
+  const [email,setEmail] = useState(null)
+ const dispatch = useDispatch()
+
+ const {token} = useSelector((state:RootState)=>state.auth)
 
   useEffect(()=>{
     const fetchData = async () =>{
       const res = await userData()
-      console.log(res)
+      console.log('sd',res)
       if(res && res.data){
         setName(res.data.firstName)
         setEmail(res.data.email)
       }
+      console.log('hello bye');
+      
     }
     fetchData()
   },[])
+
+
+  const handleLogout = async () =>{
+    dispatch(logout())
+    toast.success("logged out successfully")
+  }
   return (
     <div className="flex flex-col justify-center items-center min-h-[100vh] w-full gap-2 ">
       <div className="flex p-5 gap-3">
@@ -37,14 +55,14 @@ const Dashboard = () => {
           </div>
           <div className="flex mt-2 items-center">
             <h1 className="mx-3 font-bold">Email: </h1>
-            <h1 className="block border-b border-grey-light w-full p-3 rounded  outline-none">{email}</h1>
+            <h1 className="block border-b border-grey-light w-full p-3 rounded  outline-none">{ email}</h1>
           </div>
 
           <div className="mb-0 ">
           <button className="px-4 py-1 bg-blue-800 text-2xl font-semibold text-white rounded-md mt-3 w-full" onClick={()=>setResetPassword(true)}>
             Change Password
           </button>
-          <button className="px-4 py-1 bg-red-800 text-2xl font-semibold text-white rounded-md mt-3  w-full">
+          <button className="px-4 py-1 bg-red-800 text-2xl font-semibold text-white rounded-md mt-3  w-full" onClick={handleLogout}>
             Logout
           </button>
           </div>
